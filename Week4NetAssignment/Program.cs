@@ -1,11 +1,15 @@
 ﻿using NLog;
 
+namespace Week4NetAssignment;
+
 class Program
 {
     static Logger logger;
 
     static void Main()
     {
+        
+
         // NLog setup
         string path = Directory.GetCurrentDirectory() + "//nlog.config";
         logger = LogManager.Setup().LoadConfigurationFromFile(path).GetCurrentClassLogger();
@@ -13,7 +17,7 @@ class Program
         logger.Info("Program started");
 
         string file = "mario.csv";
-
+        Console.WriteLine(Directory.GetCurrentDirectory());
         try
         {
             if (!File.Exists(file))
