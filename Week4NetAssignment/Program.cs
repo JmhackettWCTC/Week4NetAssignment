@@ -87,7 +87,6 @@ class Program
 
         try
         {
-            // Read all lines
             string[] lines = File.ReadAllLines(file);
 
             if (lines.Length <= 1)
@@ -96,18 +95,37 @@ class Program
             }
             else
             {
-                // First line = header
-                Console.WriteLine(lines[0]);
-                Console.WriteLine(new string('-', 60));
+                // optional: show header once
+                Console.WriteLine("File header: " + lines[0]);
+                Console.WriteLine(new string('-', 40));
 
-                // Data lines
+                // each remaining line is one character
                 for (int i = 1; i < lines.Length; i++)
                 {
-                    Console.WriteLine(lines[i]);
-                }
-            }
+                    string line = lines[i];
+                    if (string.IsNullOrWhiteSpace(line))
+                        continue;
 
-            logger.Info("Viewed characters from file {File}", file);
+                    string[] parts = line.Split(','); // id,name,description,species,first-appearance,year-created [web:42][web:45][web:48]
+
+                    if (parts.Length < 6)
+                    {
+                        Console.WriteLine("Invalid line: " + line);
+                        Console.WriteLine();
+                        continue;
+                    }
+
+                    Console.WriteLine($"id: {parts[0]}");
+                    Console.WriteLine($"name: {parts[1]}");
+                    Console.WriteLine($"description: {parts[2]}");
+                    Console.WriteLine($"species: {parts[3]}");
+                    Console.WriteLine($"first-appearance: {parts[4]}");
+                    Console.WriteLine($"year-created: {parts[5]}");
+                    Console.WriteLine(new string('-', 40));
+                }
+
+                logger.Info("Viewed characters with labeled output from file {File}", file);
+            }
         }
         catch (Exception ex)
         {
